@@ -1,6 +1,18 @@
-
-
 .game{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+}
+
+.gameContent{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    
+}
+
+.gameNext{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
 }
