@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styles from "./game.module.css"
 import GameOption from "../gameOption/gameOption"
 import Icon from "../icons/icon"
@@ -8,13 +8,11 @@ function Warning(){
     alert("Espaço já preenchido, favor escolher um espaço vazio.")
 }
 
-
 function Game() {
 
     const [gameState, setGameState] = useState(Array(9).fill(0))
 
     const [currentPlayer, setCurrentPlayer] = useState(1)
-
 
     const handleClick = (position) => {
         if (gameState[position] === 0){
@@ -28,7 +26,11 @@ function Game() {
         
     }
 
-    console.log(gameState)
+    useEffect(() => {
+
+    }, [
+
+    ])
     return (
         <div className={styles.gameContent}>
             <div className={styles.game}>
