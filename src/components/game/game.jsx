@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react"
 import styles from "./game.module.css"
 import GameOption from "../gameOption/gameOption"
-import Icon from "../icons/icon"
+import GameInfo from "../gameInfo/gameInfo"
 
 
-function Warning(){
-    alert("Espaço já preenchido, favor escolher um espaço vazio.")
-}
+
+
+const winnerTable = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4 ,7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+]
 
 function Game() {
 
@@ -14,23 +23,31 @@ function Game() {
 
     const [currentPlayer, setCurrentPlayer] = useState(1)
 
+    const[winner, setWinner] = useState(0)
+
+    const Warning = () =>{
+        alert("Teste")
+    }
     const handleClick = (position) => {
-        if (gameState[position] === 0){
+        if (gameState[position] === 0 && winner === 0){
             let newGameState = [...gameState]
             newGameState[position] = currentPlayer
-            setCurrentPlayer(currentPlayer * -1)
             setGameState(newGameState)
-        } else{
-            Warning()
-        }
-        
+         }
+    }
+
+    const verifyGame = () => {
+        winnerTable.forEach((line) =>{
+            const values = line.map((pos) => gameState[pos])
+            const sum = values.reduce((acumulado, total) => acumulado + total)
+            if (sum == 3 || sum == -1) setWinner(sum / 3)
+        })
     }
 
     useEffect(() => {
-
-    }, [
-
-    ])
+        setCurrentPlayer(currentPlayer * -1)
+        verifyGame()
+    }, [gameState])
     return (
         <div className={styles.gameContent}>
             <div className={styles.game}>
@@ -44,15 +61,10 @@ function Game() {
                     ) 
                 }
             </div>
-            <div className={styles.gameNext}>
-                <h4>Próximo a jogar:</h4>
-                {
-                    currentPlayer === 1 && <Icon iconName="circle"/>
-                }
-                {
-                    currentPlayer === -1 && <Icon iconName="x"/>
-                }
-            </div>
+            <GameInfo 
+                currentPlayer={currentPlayer}
+                winner={winner}
+            />
         </div>
     )
 }
